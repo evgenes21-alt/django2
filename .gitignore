@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyc
+
+# Виртуальные окружения
+venv/
+env/
+.venv/
+ENV/
+.env
+.python-version
+
+# Django
+db.sqlite3
+*.sqlite3
+*.db
+media/
+staticfiles/
+local_settings.py
+settings_local.py
+
+# Логи
+*.log
+celerybeat-schedule.*
+
+# IDE и редакторы
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ОС
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# Тестирование
+.coverage
+.coverage.*
+.tox/
+nosetests.xml
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Пакеты и сборка
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+*.egg-info/
+MANIFEST
+
+# Pipenv, Poetry, conda
+Pipfile.lock
+poetry.lock
+conda-meta/
+
+# Frontend (если используется)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Кастомные исключения (раскомментируйте, если нужно)
+# !media/.gitkeep
+# !static/.gitkeep
