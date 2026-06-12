@@ -1,15 +1,17 @@
 from django.http import HttpResponse
 
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404, get_object_or_404
+from catalog.models import Product
 
 
-def home(request):
-    return render(request, "home.html")
+def split_system(request):
+    catalog = Product.objects.all()
+    context = {"catalog": catalog}
+    return render(request, "split_list.html", context)
 
 
-def contacts(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        message = request.POST.get("message")
-        return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
-    return render(request, "contacts.html")
+def split_detail(request,pk):
+    split = get_object_or_404(Product ,pk=pk)
+    context = {"split": split}
+    return render(request, "split_detail.html", context)
+
