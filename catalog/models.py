@@ -3,8 +3,8 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(
-        max_length=200,
-        verbose_name="наименование",
+        max_length=100,
+        verbose_name="Наименование",
         help_text="Введите наименование категории",
     )
     discription = models.TextField(blank=True, verbose_name="описание")
@@ -20,13 +20,13 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(
-        max_length=200,
+        max_length=100,
         verbose_name="Наименование",
         help_text="Введите наименование товара",
     )
-    description = models.TextField(blank=True, verbose_name="Описание")
+    description = models.TextField(max_length=100, blank=True, verbose_name="Описание")
     image = models.ImageField(
-        upload_to="products/", blank=True, null=True, verbose_name="Изображение"
+        upload_to="media/", blank=True, null=True, verbose_name="Изображение"
     )
     category = models.ForeignKey(
         Category,
