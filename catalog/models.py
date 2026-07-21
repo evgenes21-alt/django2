@@ -24,9 +24,9 @@ class Product(models.Model):
         verbose_name="Наименование",
         help_text="Введите наименование товара",
     )
-    description = models.TextField(max_length=100, blank=True, verbose_name="Описание")
+    description = models.TextField(max_length=1500, blank=True, verbose_name="Описание")
     image = models.ImageField(
-        upload_to="media/", blank=True, null=True, verbose_name="Изображение"
+        upload_to="products/", blank=True, null=True, verbose_name="Изображение"
     )
     category = models.ForeignKey(
         Category,
