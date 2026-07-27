@@ -13,29 +13,77 @@
           <div class="card-body">
             <form method="post" enctype="multipart/form-data">
               {% csrf_token %}
-              
-              <!-- Рендерим поля формы красиво через Bootstrap -->
+
+              <!-- Заголовок -->
               <div class="mb-3">
-                <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
-                {{ form.title|add_class:"form-control" }}
-              </div>
-              
-              <div class="mb-3">
-                <label for="{{ form.content.id_for_label }}" class="form-label">Текст статьи</label>
-                {{ form.content|add_class:"form-control" }}
+                <label class="form-label">Заголовок</label>
+                {{ form.title }}
               </div>
 
+              <!-- Текст статьи -->
               <div class="mb-3">
-                <label class="form-label">Изображение</label>
-                {% if object.image %}
-                  <img src="{{ object.image.url }}" class="img-thumbnail mb-2" alt="Current image">
-                {% endif %}
-                {{ form.image }}
+                <label class="form-label">Текст статьи</label>
+                {{ form.content }}
               </div>
+
+                            <!-- Блок изображения -->
+              <div class="mb-4">
+                <label class="form-label fw-bold">Изображение для превью</label>
+
+                <!-- 1. Показываем текущее фото, если оно есть -->
+                {% if object and object.preview_image %}
+                  <div class="mb-3 p-2 bg-light rounded border">
+                    <p class="small text-muted mb-1">Текущее изображение:</p>
+                    <img src="{{ object.preview_image.url }}" class="img-thumbnail" style="max-width: 150px;" alt="Current">
+                    <p class="small text-muted mt-1">Оставьте поле пустым, если не хотите менять фото.</p>
+                  </div>
+                {% elif not object %}
+                  <p class="small text-muted mb-3">Фото еще не загружено. Добавьте его, чтобы пост выглядел привлекательнее.</p>
+                {% endif %}
+
+                <!-- 2. Скрытое поле для Django (обязательно!) -->
+                <!-- Оно невидимо, но именно сюда попадет файл -->
+                <input type="file" name="preview_image" id="id_preview_image" class="form-control" style="display: none;">
+
+                <!-- 3. Красивая кнопка вместо системной -->
+                <button type="button" class="btn btn-outline-secondary w-100" onclick="document.getElementById('id_preview_image').click()">
+                  <i class="bi bi-cloud-upload me-2"></i> Загрузить фото (JPG, PNG)
+                </button>
+
+                <!-- 4. Отображение имени выбранного файла (чтобы пользователь видел, что выбрал) -->
+                <div id="file-name-display" class="mt-2 text-muted small text-center"></div>
+
+                {% if form.preview_image.errors %}
+                  <div class="text-danger small mt-1">{{ form.preview_image.errors }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Маленький скрипт, чтобы показывать имя файла -->
+              <script>
+                document.getElementById('id_preview_image').addEventListener('change', function(e) {
+                  const fileName = e.target.files?.name;
+                  const displayDiv = document.getElementById('file-name-display');
+                  if (fileName) {
+                    displayDiv.textContent = "Выбрано: " + fileName;
+                    displayDiv.classList.remove('text-muted');
+                    displayDiv.classList.add('text-success');
+                  } else {
+                    displayDiv.textContent = "";
+                  }
+                });
+              </script>
+
+              <hr class="my-4">
 
               <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-success">Сохранить изменения</button>
-                <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-success">
+                  {% if object %}
+                  Сохранить изменения
+                  {% else %}
+                  Создать
+                  {% endif %}
+                </button>
+                <a href="{% url 'blog:blog_list' %}" class="btn btn-secondary">Отмена</a>
               </div>
             </form>
           </div>

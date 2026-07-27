@@ -7,7 +7,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Главная</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'blog:post_list' %}" class="text-decoration-none">Блог</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'blog:blog_list' %}" class="text-decoration-none">Блог</a></li>
         <li class="breadcrumb-item active">{{ blog.title }}</li>
       </ol>
     </nav>
@@ -48,7 +48,7 @@
       </div>
 
       <footer class="mt-5 pt-4 border-top">
-        <a href="{% url 'blog:post_list' %}" class="btn btn-outline-secondary">
+        <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-secondary">
           ← Вернуться к списку статей
         </a>
       </footer>

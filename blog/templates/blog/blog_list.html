@@ -8,6 +8,7 @@
     <div class="container">
       <h1 class="display-6 fw-bold">Блог</h1>
       <p class="lead text-muted">Статьи и новости о кондиционерах и климате</p>
+      <p><a href="{% url 'blog:blog_create' %}" class="btn btn-primary my-2">СОЗДАТЬ</a></p>
     </div>
   </section>
 
@@ -54,9 +55,9 @@
                   {{ post.content|truncatechars:120|linebreaks }}
                 </p>
 
-                <a href="{% url 'blog:blogs_detail' post.pk %}" class="btn btn-primary mt-auto align-self-start">
-                  Читать далее
-                </a>
+                <a href="{% url 'blog:blogs_detail' post.pk %}" class="btn btn-primary mt-auto align-self-start">Читать далее</a>
+                <a href="{% url 'blog:blog_update' post.pk %}" class="btn btn-primary mt-auto align-self-start">Редактировать</a>
+                <a href="{% url 'blog:blog_delete' post.pk %}" class="btn btn-primary mt-auto align-self-start">Удалить</a>
               </div>
             </article>
           </div>
