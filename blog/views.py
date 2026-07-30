@@ -1,5 +1,5 @@
 from django.db.models import F
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 from blog.models import Blog
 
@@ -22,6 +22,10 @@ class BlogListView(ListView):
     context_object_name = "posts"
     ordering = ["-created_at"]
 
+    def get_queryset(self):
+        # Показываем только опубликованные посты
+        return Blog.objects.filter(is_published=True).order_by('-created_at')
+
 class BlogCreateView(CreateView):
     model = Blog
     fields = ("title", "image", "content")
@@ -30,7 +34,11 @@ class BlogCreateView(CreateView):
 class BlogUpdateView(UpdateView):
     model = Blog
     fields = ("title", "image", "content")
-    success_url = reverse_lazy("blog:blog_list")
+
+    def get_success_url(self):
+        # Обязательно передаём pk и указываем пространство имён
+        return reverse('blog:blogs_detail', kwargs={'pk': self.object.pk})
+    # success_url = reverse_lazy("blog:blogs_detail")
 
 class BlogDeleteView(DeleteView):
     model = Blog
