@@ -1,19 +1,23 @@
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
 
 <div class="album py-5 bg-body-tertiary">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                {% for split in catalog %}
+                {% for split in object_list %}
                 <div class="col">
                     <div class="card shadow-sm">
-                        <img src="{{ split.foto | media_filter }}">
-                        <div class="card-body"><p class="card-text">{{ split.name }}</p>
+                        {% if split.image %}
+                        <img src="{{ split.image.url }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <p class="card-text">{{ split.name }}</p>
+                            <p class="card-text">Описание: {{ split.description|truncatechars:100 }}</p>
+                            <p class="card-text">Цена: {{ split.price }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    <a class="btn btn-primary" href="{% url 'catalog:split_detail' split.pk %}" role="button">Посмотреть</a>
                                 </div>
                                 <small class="text-body-secondary">9 mins</small></div>
                         </div>
