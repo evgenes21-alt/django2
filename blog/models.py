@@ -28,7 +28,7 @@ class Blog(models.Model):
 
     is_published = models.BooleanField(
         "Признак публикации",
-        default=False,
+        default=True,
     )
     views_count = models.PositiveIntegerField(
         "Количество просмотров",

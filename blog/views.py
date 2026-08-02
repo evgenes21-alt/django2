@@ -28,12 +28,12 @@ class BlogListView(ListView):
 
 class BlogCreateView(CreateView):
     model = Blog
-    fields = ("title", "image", "content")
+    fields = ("title", "image", "content","is_published")
     success_url = reverse_lazy("blog:blog_list")
 
 class BlogUpdateView(UpdateView):
     model = Blog
-    fields = ("title", "image", "content")
+    fields = ("title", "image", "content","is_published")
 
     def get_success_url(self):
         # Обязательно передаём pk и указываем пространство имён
