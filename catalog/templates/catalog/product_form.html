@@ -1,0 +1,99 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+              {% if object %}Редактировать товар{% else %}Новый товар{% endif %}
+            </h4>
+          </div>
+          <div class="card-body">
+            <form method="post" enctype="multipart/form-data" novalidate>
+              {% csrf_token %}
+
+              <!-- Наименование -->
+              <div class="mb-3">
+                <label class="form-label">Наименование</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                  <div class="text-danger small mt-1">{{ form.name.errors }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Описание -->
+              <div class="mb-3">
+                <label class="form-label">Текст описания</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                  <div class="text-danger small mt-1">{{ form.description.errors }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Цена -->
+              <div class="mb-3">
+                <label class="form-label">Цена</label>
+                {{ form.price }}
+                {% if form.price.errors %}
+                  <div class="text-danger small mt-1">{{ form.price.errors }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Блок изображения -->
+              <div class="mb-4">
+                <label class="form-label fw-bold">Изображение для превью</label>
+
+                {% if object and object.preview_image %}
+                  <div class="mb-3 p-2 bg-light rounded border">
+                    <p class="small text-muted mb-1">Текущее изображение:</p>
+                    <img src="{{ object.preview_image.url }}" class="img-thumbnail" style="max-width: 150px;" alt="Current">
+                    <p class="small text-muted mt-1">Оставьте поле пустым, если не хотите менять фото.</p>
+                  </div>
+                {% elif not object %}
+                  <p class="small text-muted mb-3">Фото еще не загружено. Добавьте его, чтобы пост выглядел привлекательнее.</p>
+                {% endif %}
+
+                <input type="file" name="preview_image" id="id_preview_image" class="form-control" style="display: none;">
+
+                <button type="button" class="btn btn-outline-secondary w-100" onclick="document.getElementById('id_preview_image').click()">
+                  <i class="bi bi-cloud-upload me-2"></i> Загрузить фото (JPG, PNG)
+                </button>
+
+                <div id="file-name-display" class="mt-2 text-muted small text-center"></div>
+
+                {% if form.preview_image.errors %}
+                  <div class="text-danger small mt-1">{{ form.preview_image.errors }}</div>
+                {% endif %}
+              </div>
+
+              <script>
+                document.getElementById('id_preview_image').addEventListener('change', function(e) {
+                  const fileName = e.target.files?.name;
+                  const displayDiv = document.getElementById('file-name-display');
+                  if (fileName) {
+                    displayDiv.textContent = "Выбрано: " + fileName;
+                    displayDiv.classList.remove('text-muted');
+                    displayDiv.classList.add('text-success');
+                  } else {
+                    displayDiv.textContent = "";
+                  }
+                });
+              </script>
+
+              <hr class="my-4">
+
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                  {% if object %}Сохранить изменения{% else %}Создать{% endif %}
+                </button>
+                <a href="{% url 'catalog:product_list' %}" class="btn btn-secondary">Отмена</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
